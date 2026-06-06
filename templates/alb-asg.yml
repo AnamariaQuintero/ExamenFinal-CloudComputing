@@ -77,7 +77,11 @@ Resources:
             systemctl enable httpd
             systemctl start httpd
 
-            INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
+            TOKEN=$(curl -X PUT "http://169.254.169.254/latest/api/token" \
+              -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
+
+            INSTANCE_ID=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" \
+              -s http://169.254.169.254/latest/meta-data/instance-id)
 
             cat <<EOF > /var/www/html/index.html
             <!DOCTYPE html>
@@ -94,11 +98,11 @@ Resources:
             </body>
             </html>
             EOF
-      TagSpecifications:
-        - ResourceType: instance
-          Tags:
-            - Key: Name
-              Value: !Sub ASG-Instance-${StudentName}
+        TagSpecifications:
+          - ResourceType: instance
+            Tags:
+              - Key: Name
+                Value: !Sub ASG-Instance-${StudentName}
 
   AutoScalingGroup:
     Type: AWS::AutoScaling::AutoScalingGroup
