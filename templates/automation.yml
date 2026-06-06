@@ -29,7 +29,7 @@ Resources:
       VersionDescription: Version 2 - Updated web page
       LaunchTemplateData:
         ImageId: !Ref LatestAmazonLinuxAmi
-        InstanceType: t2.micro
+        InstanceType: t3.micro
         SecurityGroupIds:
           - Fn::ImportValue: !Sub ${SecurityStackName}-EC2SecurityGroupId
         UserData:
