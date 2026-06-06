@@ -20,7 +20,7 @@ Resources:
     Type: AWS::EC2::Instance
     Properties:
       ImageId: !Ref LatestAmazonLinuxAmi
-      InstanceType: t2.micro
+      InstanceType: t3.micro
       KeyName: !Ref AWS::NoValue
       SubnetId:
         Fn::ImportValue: !Sub ${SecurityStackName}-PublicSubnet1
